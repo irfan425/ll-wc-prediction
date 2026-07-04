@@ -287,7 +287,7 @@ const FIXTURES = [
   {id:91,date:'2026-07-04',group:'R32',home:'Colombia',away:'Scotland',ist:'07:00'},
   // ── ROUND OF 16 ──────────────────────────────────────────────
   {id:92,date:'2026-07-04',group:'R16',home:'Canada',away:'Morocco',ist:'22:30'},
-  {id:93,date:'2026-07-05',group:'R16',home:'Paraguay',away:'France',ist:'02:30'},
+  {id:93,date:'2026-07-04',group:'R16',home:'Paraguay',away:'France',ist:'02:30'},
   {id:94,date:'2026-07-06',group:'R16',home:'Brazil',away:'Norway',ist:'01:30'},
   {id:95,date:'2026-07-06',group:'R16',home:'Mexico',away:'England',ist:'05:30'},
   {id:96,date:'2026-07-07',group:'R16',home:'Portugal',away:'Spain',ist:'00:30'},
@@ -831,7 +831,8 @@ function renderPredict() {
   const passed    = deadlinePassed();
   const submitted = hasSubmitted(me, ad);
   const unlocked  = isUnlocked(me, ad);
-  const fixs      = FIXTURES.filter(f => f.date === ad);
+  // Only show fixtures without results yet (hide already-completed matches)
+  const fixs      = FIXTURES.filter(f => f.date === ad && !(liveResults[f.id] && typeof liveResults[f.id]==='object' && 'h' in liveResults[f.id]));
   const myPreds   = livePredictions[me] || {};
 
   let h = `<div class="stats-grid">
