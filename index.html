@@ -286,8 +286,8 @@ const FIXTURES = [
   {id:90,date:'2026-07-04',group:'R32',home:'Argentina',away:'Cape Verde',ist:'03:30'},
   {id:91,date:'2026-07-04',group:'R32',home:'Colombia',away:'Scotland',ist:'07:00'},
   // ── ROUND OF 16 ──────────────────────────────────────────────
-  {id:92,date:'2026-07-04',group:'R16',home:'Canada',away:'Morocco',ist:'22:30'},
-  {id:93,date:'2026-07-04',group:'R16',home:'Paraguay',away:'France',ist:'02:30'},
+  {id:92,date:'2026-07-05',group:'R16',home:'Canada',away:'Morocco',ist:'22:30'},
+  {id:93,date:'2026-07-05',group:'R16',home:'Paraguay',away:'France',ist:'02:30'},
   {id:94,date:'2026-07-06',group:'R16',home:'Brazil',away:'Norway',ist:'01:30'},
   {id:95,date:'2026-07-06',group:'R16',home:'Mexico',away:'England',ist:'05:30'},
   {id:96,date:'2026-07-07',group:'R16',home:'Portugal',away:'Spain',ist:'00:30'},
@@ -349,8 +349,6 @@ function addDays(d, n) {
 }
 
 function getActivePredictionDate() {
-  return '2026-07-04'; // ← TEMP: Canada vs Morocco live today — remove after tonight
-  // ── LIVE MODE ────────────────────────────────────────────────
   const ist  = istNow();
   const hour = ist.getUTCHours() + ist.getUTCMinutes() / 60;
   if (hour >= 22) {
@@ -831,8 +829,7 @@ function renderPredict() {
   const passed    = deadlinePassed();
   const submitted = hasSubmitted(me, ad);
   const unlocked  = isUnlocked(me, ad);
-  // Only show fixtures without results yet (hide already-completed matches)
-  const fixs      = FIXTURES.filter(f => f.date === ad && !(liveResults[f.id] && typeof liveResults[f.id]==='object' && 'h' in liveResults[f.id]));
+  const fixs      = FIXTURES.filter(f => f.date === ad);
   const myPreds   = livePredictions[me] || {};
 
   let h = `<div class="stats-grid">
