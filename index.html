@@ -275,16 +275,25 @@ const FIXTURES = [
   {id:79,date:'2026-06-30',group:'R32',home:'Netherlands',away:'Morocco',ist:'06:30'},
   {id:80,date:'2026-06-30',group:'R32',home:'Ivory Coast',away:'Norway',ist:'22:30'},
   {id:81,date:'2026-07-01',group:'R32',home:'France',away:'Sweden',ist:'02:30'},
-  {id:82,date:'2026-07-01',group:'R32',home:'Mexico',away:'Ecuador',ist:'06:30'},
+  {id:82,date:'2026-07-01',group:'R32',home:'Mexico',away:'Senegal',ist:'06:30'},
   {id:83,date:'2026-07-01',group:'R32',home:'England',away:'DR Congo',ist:'21:30'},
-  {id:84,date:'2026-07-02',group:'R32',home:'Belgium',away:'Sengal',ist:'01:30'},
+  {id:84,date:'2026-07-02',group:'R32',home:'Belgium',away:'South Korea',ist:'01:30'},
   {id:85,date:'2026-07-02',group:'R32',home:'USA',away:'Bosnia & Herz.',ist:'05:30'},
   {id:86,date:'2026-07-03',group:'R32',home:'Spain',away:'Austria',ist:'00:30'},
   {id:87,date:'2026-07-03',group:'R32',home:'Portugal',away:'Croatia',ist:'04:30'},
-  {id:88,date:'2026-07-03',group:'R32',home:'Switzerland',away:'Algeria',ist:'08:30'},
+  {id:88,date:'2026-07-03',group:'R32',home:'Switzerland',away:'Ecuador',ist:'08:30'},
   {id:89,date:'2026-07-03',group:'R32',home:'Australia',away:'Egypt',ist:'23:30'},
   {id:90,date:'2026-07-04',group:'R32',home:'Argentina',away:'Cape Verde',ist:'03:30'},
-  {id:91,date:'2026-07-04',group:'R32',home:'Colombia',away:'Ghana',ist:'07:00'},
+  {id:91,date:'2026-07-04',group:'R32',home:'Colombia',away:'Scotland',ist:'07:00'},
+  // ── ROUND OF 16 ──────────────────────────────────────────────
+  {id:92,date:'2026-07-04',group:'R16',home:'Canada',away:'Morocco',ist:'22:30'},
+  {id:93,date:'2026-07-05',group:'R16',home:'Paraguay',away:'France',ist:'02:30'},
+  {id:94,date:'2026-07-06',group:'R16',home:'Brazil',away:'Norway',ist:'01:30'},
+  {id:95,date:'2026-07-06',group:'R16',home:'Mexico',away:'England',ist:'05:30'},
+  {id:96,date:'2026-07-07',group:'R16',home:'Portugal',away:'Spain',ist:'00:30'},
+  {id:97,date:'2026-07-07',group:'R16',home:'USA',away:'Belgium',ist:'05:30'},
+  {id:98,date:'2026-07-07',group:'R16',home:'Argentina',away:'Egypt',ist:'21:30'},
+  {id:99,date:'2026-07-08',group:'R16',home:'Switzerland',away:'Colombia',ist:'01:30'},
 ];
 
 const DEFAULT_MEMBERS = [
@@ -493,7 +502,7 @@ function leaderboard() {
 }
 
 function isKnockout(fixture) {
-  return fixture && fixture.group === 'R32';
+  return fixture && ['R32','R16','QF','SF','FINAL'].includes(fixture.group);
 }
 
 function hasSubmitted(name, date) { return !!(liveSubmitted[name]?.[dk(date)]); }
@@ -909,7 +918,7 @@ function renderPredict() {
       const pred=myPreds[f.id];
       h += `<div class="fixture-card" id="fc${f.id}">
         <div class="fix-meta">
-          <span class="fix-group">${isKnockout(f)?'🏆 Round of 32':'Group '+f.group}</span>
+          <span class="fix-group">${f.group==='R32'?'🏆 Round of 32':f.group==='R16'?'🏆 Round of 16':f.group==='QF'?'🏆 Quarter-final':f.group==='SF'?'🏆 Semi-final':f.group==='FINAL'?'🏆 Final':'Group '+f.group}</span>
           <span class="fix-time">${f.ist} IST</span>
         </div>
         <div class="fix-body">
@@ -1363,7 +1372,7 @@ function renderAdmin() {
       const r=liveResults[f.id];
       const ko=isKnockout(f);
       h += `<div class="admin-fix-row" style="flex-wrap:wrap;gap:6px">
-        <div class="ateams" style="width:100%">${f.home} vs ${f.away} <span style="font-size:11px;color:#aaa">${ko?'🏆 R32':'Grp '+f.group} · ${f.ist} IST</span></div>`;
+        <div class="ateams" style="width:100%">${f.home} vs ${f.away} <span style="font-size:11px;color:#aaa">${f.group==='R32'?'🏆 R32':f.group==='R16'?'🏆 R16':f.group==='QF'?'🏆 QF':f.group==='SF'?'🏆 SF':f.group==='FINAL'?'🏆 Final':'Grp '+f.group} · ${f.ist} IST</span></div>`;
       if (r && typeof r==='object' && 'h' in r) {
         h += `<span class="entered-tag">${r.h}–${r.a}${r.pen?' · '+r.pen+' pens':''} ✓</span>
               <button class="btn-sm" style="font-size:11px;padding:2px 8px" onclick="clearRes(${f.id})">Edit</button>`;
