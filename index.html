@@ -349,17 +349,13 @@ function addDays(d, n) {
 }
 
 function getActivePredictionDate() {
-  // ── LIVE MODE (no override) ──────────────────────────────────
-  // Before 10 PM IST → predicting TOMORROW's matches
-  // After  10 PM IST → predicting DAY-AFTER-TOMORROW's matches
-  //                    (tonight's window is closed, next opens now)
+  return '2026-07-04'; // ← TEMP: Canada vs Morocco live today — remove after tonight
+  // ── LIVE MODE ────────────────────────────────────────────────
   const ist  = istNow();
   const hour = ist.getUTCHours() + ist.getUTCMinutes() / 60;
   if (hour >= 22) {
-    // After 10 PM — show matches 2 days from now
     return istDateStr(addDays(ist, 2));
   } else {
-    // Before 10 PM — show tomorrow's matches
     return istDateStr(addDays(ist, 1));
   }
 }
